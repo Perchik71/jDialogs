@@ -40,3 +40,4 @@
 *.txt
 *.db
 Test/.vs/Test/v16/.suo
+*.opendb

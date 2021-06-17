@@ -5,7 +5,7 @@
 namespace jDialogs = perchik71::jDialogs;
 
 HINSTANCE g_hInstance = NULL;
-jDialogs::jDialogA* lpDialogs;
+jDialogs::jDialogW* lpDialogs;
 
 #define TITLEAPP L"jDialog Test"
 #define CLASSNAME L"jDialogMainWindow"
@@ -51,7 +51,7 @@ LRESULT CALLBACK MainWindow::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM
 	{
 	case WM_CREATE:
 	{
-		lpDialogs = new jDialogs::jDialogA();
+		lpDialogs = new jDialogs::jDialogW();
 		/*
 		lpDialogs->ParseJSON(R"({
 			"ExStyle": 0,
@@ -81,7 +81,7 @@ LRESULT CALLBACK MainWindow::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM
 			]
 })"); 
 */
-		lpDialogs->LoadFromFile("test.json");
+		lpDialogs->LoadFromFile(L"test.json");
 		lpDialogs->ShowModal(hWnd, DlgProc, 0); 
 		lpDialogs->SaveToFile("test.bin");
 	}
