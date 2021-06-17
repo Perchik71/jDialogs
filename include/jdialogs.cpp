@@ -1,6 +1,7 @@
 /*
 Generating Windows dialogs in JSON for C++
-Version 0.1
+Version 0.2
+https://github.com/Perchik71/jDialogs
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 SPDX-License-Identifier: MIT
@@ -76,6 +77,16 @@ SOFTWARE.
 
 #define JDialogCreateCommControlA(_titled, _classd) CreateControlA(_ex_style, _titled, _classd, _style, _x, _y, _cx, _cy, _uid, _dialog)
 #define JDialogCreateCommControlW(_titled, _classd) CreateControlW(_ex_style, _titled, _classd, _style, _x, _y, _cx, _cy, _uid, _dialog)
+
+#define USES_STD_LEN
+
+#ifndef USES_STD_LEN
+#define JDialogStrLengthByteA(str) ((strlen(str.c_str())) << 1)
+#define JDialogStrLengthByteW(str) ((wcslen(str.c_str())) << 1)
+#else
+#define JDialogStrLengthByteA(str) ((str.length()) << 1)
+#define JDialogStrLengthByteW(str) JDialogStrLengthByteA(str)
+#endif // !USES_STD_LEN
 
 namespace perchik71
 {
@@ -627,20 +638,18 @@ namespace perchik71
 			if (_text.length())
 			{
 				wcscpy(lpwsz, _text.c_str());
-				lpAddr = (lpuint16_t)(lpwsz + _text.length() + 1);
+				lpAddr = (lpuint16_t)(lpwsz + _text.length() + 2);
 			}
 			else
 			{
 				*lpwsz = '\0';
-				lpAddr = (lpuint16_t)lpwsz;
+				lpAddr = (lpuint16_t)++lpwsz;
 			}
-
-			++lpAddr;
 		}
 
 		uint32_t WINAPI jGetMemSizeForDialogTemplateA(const string& _title, const string& _classname, const string& _face, const jControls* _cntrs)
 		{
-			uint32_t u32res = 40 + (_title.length() << 1) + (_classname.length() << 1) + (_face.length() << 1);
+			uint32_t u32res = 40 + JDialogStrLengthByteA(_title) + JDialogStrLengthByteA(_classname) + JDialogStrLengthByteA(_face);
 
 			CHAR szBuf[256];
 			jCustomControlA* control;
@@ -649,15 +658,15 @@ namespace perchik71
 				u32res = jAlign(u32res, 4);
 				control = (jCustomControlA*)cntr;
 
-				uint32_t title_len = control->Title.length();
-				uint32_t class_len = control->Class.length();
+				uint32_t title_len = JDialogStrLengthByteA(control->Title);
+				uint32_t class_len = JDialogStrLengthByteA(control->Class);
 
 				strcpy(szBuf, control->Class.c_str());
 				_strupr_s(szBuf);
-				if (mapSysClassA.count(szBuf) > 0)
-					u32res += 26 + ((title_len + 1) << 1) + 4;
+				if (mapSysClassA.find(szBuf) != mapSysClassA.end())
+					u32res += 32 + title_len;
 				else
-					u32res += 26 + ((title_len + 1) << 1) + ((class_len + 1) << 1);
+					u32res += 30 + title_len + class_len;
 			}
 
 			return u32res;
@@ -665,7 +674,7 @@ namespace perchik71
 
 		uint32_t WINAPI jGetMemSizeForDialogTemplateW(const wstring& _title, const wstring& _classname, const wstring& _face, const jControls* _cntrs)
 		{
-			uint32_t u32res = 40 + (_title.length() << 1) + (_classname.length() << 1) + (_face.length() << 1);
+			uint32_t u32res = 40 + JDialogStrLengthByteW(_title) + JDialogStrLengthByteW(_classname) + JDialogStrLengthByteW(_face);
 
 			WCHAR szBuf[256];
 			jCustomControlW* control;
@@ -674,16 +683,15 @@ namespace perchik71
 				u32res = jAlign(u32res, 4);
 				control = (jCustomControlW*)cntr;
 
-				uint32_t title_len = control->Title.length();
-				uint32_t class_len = control->Class.length();
+				uint32_t title_len = JDialogStrLengthByteW(control->Title);
+				uint32_t class_len = JDialogStrLengthByteW(control->Class);
 
 				wcscpy(szBuf, control->Class.c_str());
 				_wcsupr_s(szBuf);
-				if (mapSysClassW.count(szBuf) > 0)
-					u32res += 26 + ((title_len + 1) << 1) + 4;
+				if (mapSysClassW.find(szBuf) != mapSysClassW.end())
+					u32res += 32 + title_len;
 				else
-					u32res += 26 + ((title_len + 1) << 1) + ((class_len + 1) << 1);
-
+					u32res += 30 + title_len + class_len;					
 			}
 
 			return u32res;
@@ -1387,7 +1395,7 @@ namespace perchik71
 				jGetStyleFromJSON<uint32_t>(jData, m_style, "Style", it->second);
 			else
 				jGetStyleFromJSON<uint32_t>(jData, m_style, "Style", JDialogDefaultControlStyle);
-
+				
 			jGetStyleFromJSON<uint32_t>(jData, m_ex_style, "ExStyle", 0);
 			jGetValueFromJSON<int32_t>(jData, m_x, "x", 0);
 			jGetValueFromJSON<int32_t>(jData, m_y, "y", 0);
@@ -1456,7 +1464,7 @@ namespace perchik71
 			json* jData = (json*)_data;
 			string tmp;
 
-			jGetValueFromJSON<string>(jData, tmp, "Title", "Dialog");
+			jGetValueFromJSON<string>(jData, tmp, "Title", "");
 			m_title = jUtf8ToWide(tmp);
 
 			string stype;
@@ -1558,6 +1566,7 @@ namespace perchik71
 		jCustomDialog::jCustomDialog(void) : jComponent(), m_fsize(0), m_italic(false),
 			m_weight(FW_NORMAL), m_NeedGenerate(true), m_lpData(NULL), m_nSize(0)
 		{
+//#ifndef JDIALOG_NO_MANIFEST_LINKER_COMMCTRL
 			if (!g_comm_init)
 			{
 				INITCOMMONCONTROLSEX InitCtrls;
@@ -1568,6 +1577,7 @@ namespace perchik71
 					ICC_WIN95_CLASSES | ICC_STANDARD_CLASSES | ICC_LINK_CLASS;
 				g_comm_init = InitCommonControlsEx(&InitCtrls);
 			}
+//#endif // !JDIALOG_NO_MANIFEST_LINKER_COMMCTRL
 		}
 
 		jCustomDialog::jCustomDialog(const jCustomDialog& _dialog) : jComponent(_dialog), m_fsize(_dialog.m_fsize),

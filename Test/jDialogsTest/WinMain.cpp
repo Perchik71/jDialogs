@@ -2,10 +2,16 @@
 
 #include "..\..\include\jdialogs.h"
 
+#define WIDE
+
 namespace jDialogs = perchik71::jDialogs;
 
 HINSTANCE g_hInstance = NULL;
+#ifdef WIDE
 jDialogs::jDialogW* lpDialogs;
+#else
+jDialogs::jDialogA* lpDialogs;
+#endif
 
 #define TITLEAPP L"jDialog Test"
 #define CLASSNAME L"jDialogMainWindow"
@@ -51,37 +57,14 @@ LRESULT CALLBACK MainWindow::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM
 	{
 	case WM_CREATE:
 	{
+#ifdef WIDE
 		lpDialogs = new jDialogs::jDialogW();
-		/*
-		lpDialogs->ParseJSON(R"({
-			"ExStyle": 0,
-			"Style": ["WS_SYSMENU", "WS_THICKFRAME", "WS_MINIMIZEBOX"],
-			"Title": "Dialog for testing",
-			"ClassName": "",
-			"x": 0,
-			"y": 0,
-			"Width": 520,
-			"Height": 365,
-			"FontName": "Microsoft Sans Serif",
-			"FontSize": 12,
-			"FontWeight": 400,
-			"FontItalic": 0,
-			"Controls": [
-			{"Type": "GROUPBOX", "Title": "Hello World", "x": 10, "y": 10, "Width": 400, "Height": 300},
-			{"Type": "LTEXT", "Title": "Hello World", "x": 20, "y": 28, "Width": 230, "Height": 12},
-			{"Type": "CTEXT", "Title": "Hello World", "x": 20, "y": 40, "Width": 230, "Height": 12},
-			{"Type": "RTEXT", "Title": "Hello World", "x": 20, "y": 52, "Width": 230, "Height": 12},
-			{"Type": "EDITTEXT", "Title": "Hello World", "Style": ["ES_AUTOHSCROLL"], "x": 20, "y": 64, "Width": 230, "Height": 14},
-			{"Type": "DEFPUSHBUTTON", "Title": "Hello World", "x": 20, "y": 80, "Width": 120, "Height": 12},
-			{"Type": "LISTBOX", "x": 60, "y": 100, "Width": 120, "Height": 80},
-			{"Type": "COMBOBOX", "x": 200, "y": 100, "Width": 120, "Height": 80},
-			{"Type": "AUTORADIOBUTTON", "Title": "Hello World", "x": 200, "y": 200, "Width": 120, "Height": 14},
-			{"Type": "AUTOCHECKBUTTON", "Title": "Hello World", "x": 200, "y": 220, "Width": 120, "Height": 14},
-			{"Type": "PROGRESSBAR", "x": 60, "y": 240, "Width": 120, "Height": 20}
-			]
-})"); 
-*/
 		lpDialogs->LoadFromFile(L"test.json");
+#else
+		lpDialogs = new jDialogs::jDialogA();
+		lpDialogs->LoadFromFile("test.json");
+#endif
+
 		lpDialogs->ShowModal(hWnd, DlgProc, 0); 
 		lpDialogs->SaveToFile("test.bin");
 	}
