@@ -3,7 +3,7 @@
  
 # Uses
 
-At the beginning, insert this code
+Add two files from include to the project. At the beginning, insert this code
 ```cpp
 namespace jDialogs = perchik71::jDialogs;
 ```
@@ -17,7 +17,7 @@ And for Wide with the W prefix
 jDialogs::jDialogW* lpDialogs = new jDialogs::jDialogW();
 ```
 
-**Warning**: Wide creates a dialog by calling the WinAPI Wide function. Your JSON file must be in UTF-8 encoding, all names will be decoded in Wide encoding. For ANSI, the your file must be in ANSI encoding. Also, Wide allows you to upload files not only in the English-language file path.
+**Warning**: Wide creates a dialog by calling the WinAPI Wide function. Your JSON file must be in UTF-8 encoding, all names will be decoded in Wide encoding. For ANSI, the your file must be in ANSI encoding. Also, Wide allows you to load files not only in the English-language file path.
 
 Load a file
 
