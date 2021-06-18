@@ -3,23 +3,26 @@
  
 # Uses
 
-Add two files from include to the project. At the beginning, insert this code
+Add two files from include to the project. At the beginning, insert this code:
 ```cpp
+#include "<root project>\jDialogs\include\jdialogs.h"
 namespace jDialogs = perchik71::jDialogs;
 ```
 
-To load the dialog in ANSI, you need to select the class with the prefix A
+Set define `JDIALOG_NO_MANIFEST_LINKER_COMMCTRL` if you don't need to link the manifest file for visual themes.
+
+To load the dialog in ANSI, you need to select the class with the prefix A:
 ```cpp
 jDialogs::jDialogA* lpDialogs = new jDialogs::jDialogA();
 ```
-And for Wide with the W prefix
+And for Wide with the W prefix:
 ```cpp
 jDialogs::jDialogW* lpDialogs = new jDialogs::jDialogW();
 ```
 
 **Warning**: Wide creates a dialog by calling the WinAPI Wide function. Your JSON file must be in UTF-8 encoding, all names will be decoded in Wide encoding. For ANSI, the your file must be in ANSI encoding. Also, Wide allows you to load files not only in the English-language file path.
 
-Load a file
+Load a file:
 
 (ANSI)
 ```cpp
@@ -30,16 +33,16 @@ lpDialogs->LoadFromFile("test.json");
 lpDialogs->LoadFromFile(L"test.json");
 ```
 
-Display the dialog in normal mode
+Display the dialog in normal mode:
 ```cpp
 lpDialogs->Show(hWnd, DlgProc, 0);
 ```
-Display the dialog in modal mode
+Display the dialog in modal mode:
 ```cpp
 lpDialogs->ShowModal(hWnd, DlgProc, 0); 
 ```
 
-Sample file json
+Sample file json:
 ```json
 {"ExStyle": 0,
  "Style": ["WS_SYSMENU", "WS_THICKFRAME", "WS_MINIMIZEBOX"],
