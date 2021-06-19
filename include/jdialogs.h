@@ -322,6 +322,8 @@ namespace perchik71
 			JDialogProperty(GetFontFace, SetFontFace) wstring FontFace;
 		};
 
+#ifndef JDIALOG_NO_FUNCTIONS_CREATE_CONTROLS
+
 		bool WINAPI CreateControlA(uint32_t _ex_style, const string& _title, const string& _classname,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog);
 		bool WINAPI CreateControlW(uint32_t _ex_style, const wstring& _title, const wstring& _classname,
@@ -482,9 +484,12 @@ namespace perchik71
 		bool WINAPI CreateDateTimePickerW(uint32_t _ex_style, uint32_t _style, int32_t _x, int32_t _y,
 			int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog);
 
+#endif
+
 #ifdef UNICODE
 		typedef jDialogW jDialog;
 
+#ifndef JDIALOG_NO_FUNCTIONS_CREATE_CONTROLS
 		inline bool WINAPI CreateControl(uint32_t _ex_style, const wstring& _title, const wstring& _classname,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog)
 		{
@@ -658,10 +663,13 @@ namespace perchik71
 		{
 			return CreateHotKeyW(_ex_style, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
+#endif // !JDIALOG_NO_FUNCTIONS_CREATE_CONTROLS
 #else
 		typedef jDialogA jDialog;
 
-		inline bool WINAPI CreateControlA(uint32_t _ex_style, const string& _title, const string& _classname,
+#ifndef JDIALOG_NO_FUNCTIONS_CREATE_CONTROLS
+
+		inline bool WINAPI CreateControl(uint32_t _ex_style, const string& _title, const string& _classname,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog)
 		{
 			return CreateControlA(_ex_style, _title, _classname, _style, _x, _y, _cx, _cy, _uid, _dialog);
@@ -834,6 +842,7 @@ namespace perchik71
 		{
 			return CreateHotKeyA(_ex_style, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
+#endif // !JDIALOG_NO_FUNCTIONS_CREATE_CONTROLS
 #endif // UNICODE
 	}
 }

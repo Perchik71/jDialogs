@@ -1,5 +1,6 @@
 #include <Windows.h>
 
+#define JDIALOG_NO_FUNCTIONS_CREATE_CONTROLS
 #include "..\..\include\jdialogs.h"
 
 #define WIDE

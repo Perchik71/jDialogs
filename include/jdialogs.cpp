@@ -934,6 +934,8 @@ namespace perchik71
 			return L"";
 		}
 
+#ifndef JDIALOG_NO_FUNCTIONS_CREATE_CONTROLS
+
 		//////////////////////////////////////
 		//
 		// creates function
@@ -1344,6 +1346,8 @@ namespace perchik71
 		{
 			return JDialogCreateCommControlW(L"", L"SysDateTimePick32");
 		}
+
+#endif // !JDIALOG_NO_FUNCTIONS_CREATE_CONTROLS
 
 		//////////////////////////////////////
 		//
