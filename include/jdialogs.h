@@ -57,8 +57,9 @@ SOFTWARE.
 #define JDialogPropertyGetter(getf) __declspec(property(get = getf))
 #define JDialogProperty(getf, putf) __declspec(property(get = getf, put = putf))
 
-#define JDialogInvalidUId				(0xFFFF)
-#define JDialogIncorrectCheckUId(uid)	(((uid > JDialogInvalidUId) || (uid < 0x0)))
+#define JDialogChunkResource			(0xFFFF)
+#define JDialogInvalidUId				(0xFFFFFFFF)
+#define JDialogIncorrectCheckUId(uid)	(uid >= JDialogInvalidUId)
 
 #define JDialogDefaultControlStyle			(WS_VISIBLE | WS_GROUP)
 #define JDialogDefaultTextStyle				(JDialogDefaultControlStyle | SS_NOPREFIX)
@@ -146,8 +147,8 @@ namespace perchik71
 		public:
 			jCustomDialog* GetDialog(void) const;
 		public:
-			inline uint32_t GetUserId(void) const { return m_cy; }
-			inline void SetUserId(uint32_t _value) { m_uid = (JDialogIncorrectCheckUId(_value) ? _value : JDialogInvalidUId); doChanged(); }
+			inline uint32_t GetUserId(void) const { return m_uid; }
+			inline void SetUserId(uint32_t _value) { m_uid = (JDialogIncorrectCheckUId(_value) ? JDialogInvalidUId : _value); doChanged(); }
 		public:
 			jCustomControl(jCustomDialog* _dialog);
 			jCustomControl(const jCustomControl& _control);

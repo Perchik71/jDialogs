@@ -3,7 +3,7 @@
 #define JDIALOG_NO_FUNCTIONS_CREATE_CONTROLS
 #include "..\..\include\jdialogs.h"
 
-#define WIDE
+//#define WIDE
 
 namespace jDialogs = perchik71::jDialogs;
 

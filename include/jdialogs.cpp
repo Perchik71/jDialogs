@@ -619,7 +619,7 @@ namespace perchik71
 				if (nSize)
 				{
 					MultiByteToWideChar(CP_ACP, 0, _text.c_str(), -1, lpwsz, nSize);
-					lpAddr = (lpuint16_t)(lpwsz + nSize + 1);
+					lpAddr = (lpuint16_t)(lpwsz + nSize);
 				}
 				else
 					goto empty_add_str;
@@ -638,7 +638,7 @@ namespace perchik71
 			if (_text.length())
 			{
 				wcscpy(lpwsz, _text.c_str());
-				lpAddr = (lpuint16_t)(lpwsz + _text.length() + 2);
+				lpAddr = (lpuint16_t)(lpwsz + _text.length() + 1);
 			}
 			else
 			{
@@ -701,7 +701,7 @@ namespace perchik71
 			const string& _face, uint16_t _fsize, BOOL _italic, uint16_t _weight, uint32_t _style, int32_t x, int32_t y, int32_t cx, int32_t cy, const jControls* _cntrs)
 		{
 			_template.dlgVer = 1;
-			_template.signature = 0xFFFF;
+			_template.signature = JDialogChunkResource;
 			_template.helpID = 0;
 			_template.exStyle = _ex_style;
 			_template.style = _style | STYLE_DEFAULT;
@@ -752,7 +752,7 @@ namespace perchik71
 				_itemtemplate->y = (int16_t)MulDiv(control->Y, 8, _units.y);
 				_itemtemplate->cx = (int16_t)MulDiv(control->Width, 4, _units.x);
 				_itemtemplate->cy = (int16_t)MulDiv(control->Height, 8, _units.y);
-				_itemtemplate->id = (JDialogIncorrectCheckUId(control->UserId) ? control->UserId : JDialogInvalidUId);
+				_itemtemplate->id = (JDialogIncorrectCheckUId(control->UserId) ? JDialogInvalidUId : control->UserId);
 
 				lpw += 12;
 
@@ -764,7 +764,7 @@ namespace perchik71
 					jAppendStringQuoteA(lpw, control->Class);
 				else
 				{
-					*lpw++ = 0xFFFF;
+					*lpw++ = JDialogChunkResource;
 					*lpw++ = it->second;
 				}
 
@@ -772,7 +772,7 @@ namespace perchik71
 				if ((it != mapSysClassA.end()) && (it->second == 0x0082) &&
 					(((_itemtemplate->style & SS_BITMAP) == SS_BITMAP) || ((_itemtemplate->style & SS_ICON) == SS_ICON)))
 				{
-					*lpw++ = 0xFFFF;
+					*lpw++ = JDialogChunkResource;
 					*lpw++ = strtoul(control->Title.c_str(), NULL, 10);
 				}
 				else
@@ -786,7 +786,7 @@ namespace perchik71
 			const wstring& _face, uint16_t _fsize, BOOL _italic, uint16_t _weight, uint32_t _style, int32_t x, int32_t y, int32_t cx, int32_t cy, const jControls* _cntrs)
 		{
 			_template.dlgVer = 1;
-			_template.signature = 0xFFFF;
+			_template.signature = JDialogChunkResource;
 			_template.helpID = 0;
 			_template.exStyle = _ex_style;
 			_template.style = _style | STYLE_DEFAULT;
@@ -837,7 +837,7 @@ namespace perchik71
 				_itemtemplate->y = (int16_t)MulDiv(control->Y, 8, _units.y);
 				_itemtemplate->cx = (int16_t)MulDiv(control->Width, 4, _units.x);
 				_itemtemplate->cy = (int16_t)MulDiv(control->Height, 8, _units.y);
-				_itemtemplate->id = (JDialogIncorrectCheckUId(control->UserId) ? control->UserId : JDialogInvalidUId);
+				_itemtemplate->id = (JDialogIncorrectCheckUId(control->UserId) ? JDialogInvalidUId : control->UserId);
 
 				lpw += 12;
 
@@ -849,7 +849,7 @@ namespace perchik71
 					jAppendStringQuoteW(lpw, control->Class);
 				else
 				{
-					*lpw++ = 0xFFFF;
+					*lpw++ = JDialogChunkResource;
 					*lpw++ = it->second;
 				}
 
@@ -857,7 +857,7 @@ namespace perchik71
 				if ((it != mapSysClassW.end()) && (it->second == 0x0082) &&
 					(((_itemtemplate->style & SS_BITMAP) == SS_BITMAP) || ((_itemtemplate->style & SS_ICON) == SS_ICON)))
 				{
-					*lpw++ = 0xFFFF;
+					*lpw++ = JDialogChunkResource;
 					*lpw++ = wcstoul(control->Title.c_str(), NULL, 10);
 				}
 				else
@@ -960,6 +960,7 @@ namespace perchik71
 			control->Y = _y;
 			control->Width = _cx;
 			control->Height = _cy;
+			control->UserId = _uid;
 
 			bool bRes = _dialog->AppendControl(control);
 			if (!bRes)
