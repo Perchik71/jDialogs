@@ -62,7 +62,7 @@
     },
     {
       "Type": "COMBOBOX",
-      "Style": [ "CBS_AUTOHSCROLL", "CBS_SORT", "WS_VSCROLL", "CBS_DROPDOWNLIST" ],
+      "Style": [ "CBS_AUTOHSCROLL", "CBS_SORT", "WS_VSCROLL" ],
       "Id": 6024,
       "x": 29,
       "y": 4,

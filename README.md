@@ -90,7 +90,8 @@ The project depends on https://github.com/nlohmann/json used for working with JS
 | DEFPUSHBUTTON | `Button` control with tabstop |
 | PUSHBUTTON | `Button` control |
 | LISTBOX | `ListBox` control |
-| COMBOBOX | `ComboBox` control |
+| COMBOBOX | `ComboBox` control (read only) |
+| COMBOBOXEX | `ComboBox` control (with edit) |
 | AUTORADIOBUTTON | `RadioButton` control |
 | AUTOCHECKBUTTON | `CheckButton` control |
 | GROUPBOX | `GroupBox` control |

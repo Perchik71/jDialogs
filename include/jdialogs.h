@@ -2,7 +2,7 @@
 
 /*
 Generating Windows dialogs in JSON for C++
-Version 0.2
+Version 0.3
 https://github.com/Perchik71/jDialogs
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
@@ -67,27 +67,29 @@ SOFTWARE.
 #define JDialogDefaultCenterTextStyle		(JDialogDefaultControlStyle | SS_NOPREFIX | SS_CENTER)
 #define JDialogDefaultRightTextStyle		(JDialogDefaultControlStyle | SS_NOPREFIX | SS_RIGHT)
 #define JDialogDefaultEditTextStyle			(JDialogDefaultControlStyle | WS_BORDER | WS_TABSTOP)
-#define JDialogDefaultDefPushButtonStyle	(JDialogDefaultControlStyle | WS_TABSTOP)
+#define JDialogDefaultPushButtonStyle		(JDialogDefaultControlStyle | BS_PUSHBUTTON)
+#define JDialogDefaultDefPushButtonStyle	(JDialogDefaultControlStyle | WS_TABSTOP | BS_DEFPUSHBUTTON)
 #define JDialogDefaultListBoxStyle			(JDialogDefaultControlStyle | WS_BORDER | WS_TABSTOP)
-#define JDialogDefaultComboBoxStyle			(JDialogDefaultControlStyle | WS_TABSTOP)
-#define JDialogDefaultAutoRadioButtonStyle	(JDialogDefaultDefPushButtonStyle | BS_RADIOBUTTON)
-#define JDialogDefaultAutoCheckButtonStyle	(JDialogDefaultDefPushButtonStyle | BS_CHECKBOX)
+#define JDialogDefaultComboBoxStyle			(JDialogDefaultControlStyle | WS_TABSTOP | CBS_DROPDOWNLIST)
+#define JDialogDefaultComboBoxExStyle		(JDialogDefaultControlStyle | WS_TABSTOP | CBS_DROPDOWN)
+#define JDialogDefaultAutoRadioButtonStyle	(JDialogDefaultControlStyle | WS_TABSTOP | BS_RADIOBUTTON)
+#define JDialogDefaultAutoCheckButtonStyle	(JDialogDefaultControlStyle | WS_TABSTOP | BS_CHECKBOX)
 #define JDialogDefaultGroupBoxStyle			(JDialogDefaultControlStyle | BS_GROUPBOX)
 #define JDialogDefaultBitmapStyle			(JDialogDefaultControlStyle | SS_BITMAP)
 #define JDialogDefaultIconStyle				(JDialogDefaultControlStyle | SS_ICON)
 #define JDialogDefaultBitmapExStyle			(JDialogDefaultBitmapStyle | SS_CENTERIMAGE)
 #define JDialogDefaultIconExStyle			(JDialogDefaultIconStyle | SS_CENTERIMAGE)
-#define JDialogDefaultListViewStyle			(JDialogDefaultComboBoxStyle)
-#define JDialogDefaultTreeViewStyle			(JDialogDefaultComboBoxStyle)
+#define JDialogDefaultListViewStyle			(JDialogDefaultControlStyle | WS_TABSTOP)
+#define JDialogDefaultTreeViewStyle			(JDialogDefaultControlStyle | WS_TABSTOP)
 #define JDialogDefaultTabViewStyle			(JDialogDefaultControlStyle)
-#define JDialogDefaultIPAdressStyle			(JDialogDefaultComboBoxStyle)
-#define JDialogDefaultMonthCalStyle			(JDialogDefaultComboBoxStyle)
+#define JDialogDefaultIPAdressStyle			(JDialogDefaultControlStyle | WS_TABSTOP)
+#define JDialogDefaultMonthCalStyle			(JDialogDefaultControlStyle | WS_TABSTOP)
 #define JDialogDefaultStatusBarStyle		(JDialogDefaultControlStyle)
 #define JDialogDefaultProgressBarStyle		(JDialogDefaultControlStyle | WS_BORDER)
 #define JDialogDefaultAnimateStyle			(JDialogDefaultControlStyle)
 #define JDialogDefaultHeaderStyle			(JDialogDefaultControlStyle)
 #define JDialogDefaultRichEditStyle			(JDialogDefaultEditTextStyle)
-#define JDialogDefaultDateTimePickerStyle	(JDialogDefaultComboBoxStyle)
+#define JDialogDefaultDateTimePickerStyle	(JDialogDefaultControlStyle | WS_TABSTOP)
 #define JDialogDefaultReBarStyle			(JDialogDefaultControlStyle)
 #define JDialogDefaultHotKeyStyle			(JDialogDefaultControlStyle)
 #define JDialogDefaultScrollBarStyle		(JDialogDefaultControlStyle)

@@ -1,6 +1,6 @@
 /*
 Generating Windows dialogs in JSON for C++
-Version 0.2
+Version 0.3
 https://github.com/Perchik71/jDialogs
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
@@ -131,9 +131,10 @@ namespace perchik71
 			{ "RTEXT", JDialogDefaultRightTextStyle },
 			{ "EDITTEXT", JDialogDefaultEditTextStyle },
 			{ "DEFPUSHBUTTON", JDialogDefaultDefPushButtonStyle },
-			{ "PUSHBUTTON", JDialogDefaultDefPushButtonStyle | ~WS_TABSTOP },
+			{ "PUSHBUTTON", JDialogDefaultPushButtonStyle },
 			{ "LISTBOX", JDialogDefaultListBoxStyle },
 			{ "COMBOBOX", JDialogDefaultComboBoxStyle },
+			{ "COMBOBOXEX", JDialogDefaultComboBoxStyle },
 			{ "AUTORADIOBUTTON", JDialogDefaultAutoRadioButtonStyle },
 			{ "AUTOCHECKBUTTON", JDialogDefaultAutoCheckButtonStyle },
 			{ "GROUPBOX", JDialogDefaultGroupBoxStyle },
@@ -228,6 +229,8 @@ namespace perchik71
 			{ "WS_DISABLED", WS_DISABLED },
 			{ "WS_HSCROLL", WS_HSCROLL },
 			{ "WS_VSCROLL", WS_VSCROLL },
+			{ "WS_GROUP", WS_GROUP },
+			{ "WS_VISIBLE", WS_VISIBLE },
 			{ "WS_TABSTOP", WS_TABSTOP },
 			{ "WS_THICKFRAME", WS_THICKFRAME },
 			{ "WS_CLIPCHILDREN", WS_CLIPCHILDREN },
@@ -236,6 +239,7 @@ namespace perchik71
 			{ "WS_SYSMENU", WS_SYSMENU },
 			{ "WS_MAXIMIZEBOX", WS_MAXIMIZEBOX },
 			{ "WS_MINIMIZEBOX", WS_MINIMIZEBOX },
+			{ "NOT WS_BORDER", ~WS_BORDER },
 			{ "NOT WS_VISIBLE", ~WS_VISIBLE },
 			{ "NOT WS_GROUP", ~WS_GROUP },
 			{ "WS_EX_NOPARENTNOTIFY", WS_EX_NOPARENTNOTIFY },
