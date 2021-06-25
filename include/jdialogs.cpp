@@ -723,10 +723,18 @@ namespace perchik71
 
 			// position and size window (convert to dialog units)
 			jGetDialogUnitsA(_face, _fsize, _italic, _weight, _units.x, _units.y);
+		
+#ifndef JDIALOG_4x4_DIALOG_UINT_SET
 			_template.x = (int16_t)MulDiv(x, 4, _units.x);
 			_template.y = (int16_t)MulDiv(y, 8, _units.y);
 			_template.cx = (int16_t)MulDiv(cx, 4, _units.x);
 			_template.cy = (int16_t)MulDiv(cy, 8, _units.y);
+#else
+			_template.x = (int16_t)MulDiv(x, 4, _units.x);
+			_template.y = (int16_t)MulDiv(y, 4, _units.y);
+			_template.cx = (int16_t)MulDiv(cx, 4, _units.x);
+			_template.cy = (int16_t)MulDiv(cy, 4, _units.y);
+#endif
 
 			lpuint16_t lpw = (lpuint16_t)(((lpuint8_t)&_template) + 26);
 			// no support menu
@@ -762,10 +770,17 @@ namespace perchik71
 				_itemtemplate->helpID = 0;
 				_itemtemplate->exStyle = control->ExStyle;
 				_itemtemplate->style = control->Style | WS_CHILD;
+#ifndef JDIALOG_4x4_DIALOG_UINT_SET
 				_itemtemplate->x = (int16_t)MulDiv(control->X, 4, _units.x);
 				_itemtemplate->y = (int16_t)MulDiv(control->Y, 8, _units.y);
 				_itemtemplate->cx = (int16_t)MulDiv(control->Width, 4, _units.x);
 				_itemtemplate->cy = (int16_t)MulDiv(control->Height, 8, _units.y);
+#else
+				_itemtemplate->x = (int16_t)MulDiv(control->X, 4, _units.x);
+				_itemtemplate->y = (int16_t)MulDiv(control->Y, 4, _units.y);
+				_itemtemplate->cx = (int16_t)MulDiv(control->Width, 4, _units.x);
+				_itemtemplate->cy = (int16_t)MulDiv(control->Height, 4, _units.y);
+#endif
 				_itemtemplate->id = (JDialogIncorrectCheckUId(control->UserId) ? JDialogInvalidUId : control->UserId);
 
 				lpw += 12;
@@ -808,10 +823,17 @@ namespace perchik71
 
 			// position and size window (convert to dialog units)
 			jGetDialogUnitsW(_face, _fsize, _italic, _weight, _units.x, _units.y);
+#ifndef JDIALOG_4x4_DIALOG_UINT_SET
 			_template.x = (int16_t)MulDiv(x, 4, _units.x);
 			_template.y = (int16_t)MulDiv(y, 8, _units.y);
 			_template.cx = (int16_t)MulDiv(cx, 4, _units.x);
 			_template.cy = (int16_t)MulDiv(cy, 8, _units.y);
+#else
+			_template.x = (int16_t)MulDiv(x, 4, _units.x);
+			_template.y = (int16_t)MulDiv(y, 4, _units.y);
+			_template.cx = (int16_t)MulDiv(cx, 4, _units.x);
+			_template.cy = (int16_t)MulDiv(cy, 4, _units.y);
+#endif
 
 			lpuint16_t lpw = (lpuint16_t)(((lpuint8_t)&_template) + 26);
 			// no support menu
@@ -847,10 +869,17 @@ namespace perchik71
 				_itemtemplate->helpID = 0;
 				_itemtemplate->exStyle = control->ExStyle;
 				_itemtemplate->style = control->Style | WS_CHILD;
+#ifndef JDIALOG_4x4_DIALOG_UINT_SET
 				_itemtemplate->x = (int16_t)MulDiv(control->X, 4, _units.x);
 				_itemtemplate->y = (int16_t)MulDiv(control->Y, 8, _units.y);
 				_itemtemplate->cx = (int16_t)MulDiv(control->Width, 4, _units.x);
 				_itemtemplate->cy = (int16_t)MulDiv(control->Height, 8, _units.y);
+#else
+				_itemtemplate->x = (int16_t)MulDiv(control->X, 4, _units.x);
+				_itemtemplate->y = (int16_t)MulDiv(control->Y, 4, _units.y);
+				_itemtemplate->cx = (int16_t)MulDiv(control->Width, 4, _units.x);
+				_itemtemplate->cy = (int16_t)MulDiv(control->Height, 4, _units.y);
+#endif
 				_itemtemplate->id = (JDialogIncorrectCheckUId(control->UserId) ? JDialogInvalidUId : control->UserId);
 
 				lpw += 12;

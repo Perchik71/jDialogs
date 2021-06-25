@@ -1,5 +1,6 @@
 #include <Windows.h>
 
+//#define JDIALOG_4x4_DIALOG_UINT
 #define JDIALOG_NO_FUNCTIONS_CREATE_CONTROLS
 #include "..\..\include\jdialogs.h"
 

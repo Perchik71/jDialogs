@@ -50,6 +50,13 @@ SOFTWARE.
 // set define JDIALOG_NO_MANIFEST_LINKER_COMMCTRL if you don't need to link
 // the manifest file for visual themes
 
+// set define JDIALOG_4x4_DIALOG_UINT 
+// Microsoft deceives me in its reference book that the width is multiplied by 8, and the height is multiplied by 4.
+
+#ifdef JDIALOG_4x4_DIALOG_UINT
+#define JDIALOG_4x4_DIALOG_UINT_SET
+#endif
+
 #include <stdint.h>
 #include <string>
 #include <vector>
