@@ -1640,20 +1640,20 @@ namespace perchik71
 			return true;
 		}
 
-		HWND jDialogA::Show(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam)
+		HWND jDialogA::Show(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam, HINSTANCE hInst)
 		{
 			if (IsNeedGenerate() && !GenerateBinary())
 				return NULL;
 
-			return CreateDialogIndirectParamA(GetModuleHandle(NULL), (LPCDLGTEMPLATEA)m_lpData, _parent, _dlgproc, _initparam);
+			return CreateDialogIndirectParamA(hInst, (LPCDLGTEMPLATEA)m_lpData, _parent, _dlgproc, _initparam);
 		}
 
-		INT_PTR jDialogA::ShowModal(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam)
+		INT_PTR jDialogA::ShowModal(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam, HINSTANCE hInst)
 		{
 			if (IsNeedGenerate() && !GenerateBinary())
 				return S_FALSE;
 
-			return DialogBoxIndirectParamA(GetModuleHandle(NULL), (LPCDLGTEMPLATEA)m_lpData, _parent, _dlgproc, _initparam);
+			return DialogBoxIndirectParamA(hInst, (LPCDLGTEMPLATEA)m_lpData, _parent, _dlgproc, _initparam);
 		}
 
 		bool jDialogA::DoGenerateBinary(void)
@@ -1789,20 +1789,20 @@ namespace perchik71
 			return true;
 		}
 
-		HWND jDialogW::Show(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam)
+		HWND jDialogW::Show(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam, HINSTANCE hInst)
 		{
 			if (IsNeedGenerate() && !GenerateBinary())
 				return NULL;
 
-			return CreateDialogIndirectParamW(GetModuleHandle(NULL), (LPCDLGTEMPLATEW)m_lpData, _parent, _dlgproc, _initparam);
+			return CreateDialogIndirectParamW(hInst, (LPCDLGTEMPLATEW)m_lpData, _parent, _dlgproc, _initparam);
 		}
 
-		INT_PTR jDialogW::ShowModal(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam)
+		INT_PTR jDialogW::ShowModal(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam, HINSTANCE hInst)
 		{
 			if (IsNeedGenerate() && !GenerateBinary())
 				return S_FALSE;
 
-			return DialogBoxIndirectParamW(GetModuleHandle(NULL), (LPCDLGTEMPLATEW)m_lpData, _parent, _dlgproc, _initparam);
+			return DialogBoxIndirectParamW(hInst, (LPCDLGTEMPLATEW)m_lpData, _parent, _dlgproc, _initparam);
 		}
 
 		bool jDialogW::DoGenerateBinary(void)

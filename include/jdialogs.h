@@ -234,8 +234,8 @@ namespace perchik71
 			// Save binary data to file
 			bool SaveToFile(const string& _fname);
 		public:
-			virtual HWND Show(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam) = 0;
-			virtual INT_PTR ShowModal(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam) = 0;
+			virtual HWND Show(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam, HINSTANCE hInst = GetModuleHandle(NULL)) = 0;
+			virtual INT_PTR ShowModal(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam, HINSTANCE hInst = GetModuleHandle(NULL)) = 0;
 		public:
 			jCustomDialog(void);
 			jCustomDialog(const jCustomDialog& _dialog);
@@ -270,8 +270,8 @@ namespace perchik71
 			bool ParseJSON(const string& _data);
 			bool LoadFromFile(const string& _fname);
 		public:
-			HWND Show(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam);
-			INT_PTR ShowModal(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam);
+			HWND Show(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam, HINSTANCE hInst = GetModuleHandle(NULL));
+			INT_PTR ShowModal(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam, HINSTANCE hInst = GetModuleHandle(NULL));
 		public:
 			static jDialogA FromFile(const string& _fname);
 		public:
@@ -310,8 +310,8 @@ namespace perchik71
 			bool ParseJSON(const string& _data);
 			bool LoadFromFile(const wstring& _fname);
 		public:
-			HWND Show(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam);
-			INT_PTR ShowModal(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam);
+			HWND Show(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam, HINSTANCE hInst = GetModuleHandle(NULL));
+			INT_PTR ShowModal(HWND _parent, DLGPROC _dlgproc, LPARAM _initparam, HINSTANCE hInst = GetModuleHandle(NULL));
 		public:
 			static jDialogW FromFile(const wstring& _fname);
 		public:
