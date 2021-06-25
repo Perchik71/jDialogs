@@ -900,10 +900,8 @@ namespace perchik71
 						string str;
 						element.get_to(str);
 
-						if (!str.find_first_of("NOT ") || !str.find_first_of("not "))
-						{
+						if (!str.find("NOT ") || !str.find("not "))
 							_v &= ~jGetStyleFromString(str.substr(4));
-						}
 						else
 							_v |= jGetStyleFromString(str);
 					}
