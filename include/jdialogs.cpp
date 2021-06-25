@@ -239,9 +239,6 @@ namespace perchik71
 			{ "WS_SYSMENU", WS_SYSMENU },
 			{ "WS_MAXIMIZEBOX", WS_MAXIMIZEBOX },
 			{ "WS_MINIMIZEBOX", WS_MINIMIZEBOX },
-			{ "NOT WS_BORDER", ~WS_BORDER },
-			{ "NOT WS_VISIBLE", ~WS_VISIBLE },
-			{ "NOT WS_GROUP", ~WS_GROUP },
 			{ "WS_EX_NOPARENTNOTIFY", WS_EX_NOPARENTNOTIFY },
 			{ "WS_EX_ACCEPTFILES", WS_EX_ACCEPTFILES },
 			{ "WS_EX_CLIENTEDGE", WS_EX_CLIENTEDGE },
@@ -902,7 +899,13 @@ namespace perchik71
 					{
 						string str;
 						element.get_to(str);
-						_v |= jGetStyleFromString(str);
+
+						if (!str.find_first_of("NOT ") || !str.find_first_of("not "))
+						{
+							_v &= ~jGetStyleFromString(str.substr(4));
+						}
+						else
+							_v |= jGetStyleFromString(str);
 					}
 					else if(element.is_number_integer())
 					{
