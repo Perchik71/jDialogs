@@ -73,7 +73,8 @@ SOFTWARE.
 
 #include "..\json\single_include\nlohmann\json.hpp"
 
-#define STYLE_DEFAULT (WS_DLGFRAME | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | WS_CAPTION)
+#define EXSTYLE_DEFAULT	(WS_EX_COMPOSITED)
+#define STYLE_DEFAULT	(WS_DLGFRAME | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | WS_CAPTION)
 
 #define JDialogCreateCommControlA(_titled, _classd) CreateControlA(_ex_style, _titled, _classd, _style, _x, _y, _cx, _cy, _uid, _dialog)
 #define JDialogCreateCommControlW(_titled, _classd) CreateControlW(_ex_style, _titled, _classd, _style, _x, _y, _cx, _cy, _uid, _dialog)
@@ -141,6 +142,8 @@ namespace perchik71
 			{ "LISTBOX", { JDialogDefaultListBoxStyle, 0 } },
 			{ "COMBOBOX", { JDialogDefaultComboBoxStyle, 0 } },
 			{ "COMBOBOXEX", { JDialogDefaultComboBoxStyle, 0 } },
+			{ "RADIOBUTTON", { JDialogDefaultRadioButtonStyle, 0 } },
+			{ "CHECKBUTTON", { JDialogDefaultCheckButtonStyle, 0 } },
 			{ "AUTORADIOBUTTON", { JDialogDefaultAutoRadioButtonStyle, 0 } },
 			{ "AUTOCHECKBUTTON", { JDialogDefaultAutoCheckButtonStyle, 0 } },
 			{ "GROUPBOX", { JDialogDefaultGroupBoxStyle, WS_EX_TRANSPARENT } },
@@ -260,6 +263,7 @@ namespace perchik71
 			{ "WS_MINIMIZEBOX", WS_MINIMIZEBOX },
 			{ "WS_EX_COMPOSITED", WS_EX_COMPOSITED },
 			{ "WS_EX_NOPARENTNOTIFY", WS_EX_NOPARENTNOTIFY },
+			{ "WS_EX_NOACTIVATE", WS_EX_NOACTIVATE },
 			{ "WS_EX_ACCEPTFILES", WS_EX_ACCEPTFILES },
 			{ "WS_EX_CLIENTEDGE", WS_EX_CLIENTEDGE },
 			{ "WS_EX_TRANSPARENT", WS_EX_TRANSPARENT },
@@ -310,6 +314,13 @@ namespace perchik71
 			{ "ES_RIGHT", ES_RIGHT },
 			{ "ES_UPPERCASE", ES_UPPERCASE },
 			{ "ES_WANTRETURN", ES_WANTRETURN },
+			{ "BS_AUTORADIOBUTTON", BS_AUTORADIOBUTTON },
+			{ "BS_AUTOCHECKBOX", BS_AUTOCHECKBOX },
+			{ "BS_CHECKBOX", BS_CHECKBOX },
+			{ "BS_RADIOBUTTON", BS_RADIOBUTTON },
+			{ "BS_GROUPBOX", BS_GROUPBOX },
+			{ "BS_PUSHBOX", BS_PUSHBOX },
+			{ "BS_USERBUTTON", BS_USERBUTTON },
 			{ "BS_BITMAP", BS_BITMAP },
 			{ "BS_BOTTOM", BS_BOTTOM },
 			{ "BS_CENTER", BS_CENTER },
@@ -325,6 +336,8 @@ namespace perchik71
 			{ "BS_PUSHLIKE", BS_PUSHLIKE },
 			{ "BS_NOTIFY", BS_NOTIFY },
 			{ "BS_MULTILINE", BS_MULTILINE },
+			{ "BS_TYPEMASK", BS_TYPEMASK },
+			{ "BS_LEFTTEXT", BS_LEFTTEXT },
 			{ "LVS_EDITLABELS", LVS_EDITLABELS },
 			{ "LVS_ICON", LVS_ICON },
 			{ "LVS_LIST", LVS_LIST },
@@ -724,7 +737,7 @@ namespace perchik71
 			_template.dlgVer = 1;
 			_template.signature = JDialogChunkResource;
 			_template.helpID = 0;
-			_template.exStyle = _ex_style;
+			_template.exStyle = _ex_style | EXSTYLE_DEFAULT;
 			_template.style = _style | STYLE_DEFAULT;
 			_template.cDlgItems = _cntrs->size();
 
@@ -824,7 +837,7 @@ namespace perchik71
 			_template.dlgVer = 1;
 			_template.signature = JDialogChunkResource;
 			_template.helpID = 0;
-			_template.exStyle = _ex_style;
+			_template.exStyle = _ex_style | EXSTYLE_DEFAULT;
 			_template.style = _style | STYLE_DEFAULT;
 			_template.cDlgItems = _cntrs->size();
 
