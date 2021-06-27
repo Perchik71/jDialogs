@@ -2,7 +2,7 @@
 
 /*
 Generating Windows dialogs in JSON for C++
-Version 0.3
+Version 0.4
 https://github.com/Perchik71/jDialogs
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.

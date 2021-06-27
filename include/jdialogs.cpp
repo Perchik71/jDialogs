@@ -1,6 +1,6 @@
 /*
 Generating Windows dialogs in JSON for C++
-Version 0.3
+Version 0.4
 https://github.com/Perchik71/jDialogs
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
@@ -101,6 +101,12 @@ namespace perchik71
 		typedef uint16_t* lpuint16_t;
 		typedef uint32_t* lpuint32_t;
 
+		typedef struct map_item_styles_tag
+		{
+			uint32_t style;
+			uint32_t ex_style;
+		} map_item_styles, *pmap_item_styles, *lpmap_item_styles;
+
 		/*
 		If the first element is 0xFFFF, the array has one additional element that specifies the ordinal value of a predefined system class.
 		The ordinal can be one of the following atom values.
@@ -124,38 +130,38 @@ namespace perchik71
 			{ L"COMBOBOX", 0x0085 }
 		};
 
-		const map<string, uint32_t> mapStdControlType = {
-			{ "TEXT", JDialogDefaultTextStyle },
-			{ "LTEXT", JDialogDefaultLeftTextStyle },
-			{ "CTEXT", JDialogDefaultCenterTextStyle },
-			{ "RTEXT", JDialogDefaultRightTextStyle },
-			{ "EDITTEXT", JDialogDefaultEditTextStyle },
-			{ "DEFPUSHBUTTON", JDialogDefaultDefPushButtonStyle },
-			{ "PUSHBUTTON", JDialogDefaultPushButtonStyle },
-			{ "LISTBOX", JDialogDefaultListBoxStyle },
-			{ "COMBOBOX", JDialogDefaultComboBoxStyle },
-			{ "COMBOBOXEX", JDialogDefaultComboBoxStyle },
-			{ "AUTORADIOBUTTON", JDialogDefaultAutoRadioButtonStyle },
-			{ "AUTOCHECKBUTTON", JDialogDefaultAutoCheckButtonStyle },
-			{ "GROUPBOX", JDialogDefaultGroupBoxStyle },
-			{ "LISTVIEW", JDialogDefaultListViewStyle },
-			{ "TREEVIEW", JDialogDefaultTreeViewStyle },
-			{ "TABVIEW", JDialogDefaultTabViewStyle },
-			{ "BITMAP", JDialogDefaultBitmapStyle },
-			{ "ICON", JDialogDefaultIconStyle },
-			{ "BITMAPEX", JDialogDefaultBitmapExStyle },
-			{ "ICONEX", JDialogDefaultIconExStyle },
-			{ "SCROLLBAR", JDialogDefaultScrollBarStyle },
-			{ "REBAR", JDialogDefaultReBarStyle },
-			{ "HOTKEY", JDialogDefaultHotKeyStyle },
-			{ "IPADDRESS", JDialogDefaultIPAdressStyle },
-			{ "MONTHCAL", JDialogDefaultMonthCalStyle },
-			{ "STATUSBAR", JDialogDefaultStatusBarStyle },
-			{ "PROGRESSBAR", JDialogDefaultProgressBarStyle },
-			{ "ANIMATE", JDialogDefaultAnimateStyle },
-			{ "HEADER", JDialogDefaultHeaderStyle },
-			{ "RICHEDIT", JDialogDefaultRichEditStyle },
-			{ "DATETIMEPICKER", JDialogDefaultDateTimePickerStyle }
+		const map<string, map_item_styles> mapStdControlType = {
+			{ "TEXT", { JDialogDefaultTextStyle, 0 } },
+			{ "LTEXT", { JDialogDefaultLeftTextStyle, 0 } },
+			{ "CTEXT", { JDialogDefaultCenterTextStyle, 0 } },
+			{ "RTEXT", { JDialogDefaultRightTextStyle, 0 } },
+			{ "EDITTEXT", { JDialogDefaultEditTextStyle, 0 } },
+			{ "DEFPUSHBUTTON", { JDialogDefaultDefPushButtonStyle, 0 } },
+			{ "PUSHBUTTON", { JDialogDefaultPushButtonStyle, 0 } },
+			{ "LISTBOX", { JDialogDefaultListBoxStyle, 0 } },
+			{ "COMBOBOX", { JDialogDefaultComboBoxStyle, 0 } },
+			{ "COMBOBOXEX", { JDialogDefaultComboBoxStyle, 0 } },
+			{ "AUTORADIOBUTTON", { JDialogDefaultAutoRadioButtonStyle, 0 } },
+			{ "AUTOCHECKBUTTON", { JDialogDefaultAutoCheckButtonStyle, 0 } },
+			{ "GROUPBOX", { JDialogDefaultGroupBoxStyle, WS_EX_TRANSPARENT } },
+			{ "LISTVIEW", { JDialogDefaultListViewStyle, LVS_EX_DOUBLEBUFFER } },
+			{ "TREEVIEW", { JDialogDefaultTreeViewStyle, TVS_EX_DOUBLEBUFFER } },
+			{ "TABVIEW", { JDialogDefaultTabViewStyle, 0 } },
+			{ "BITMAP", { JDialogDefaultBitmapStyle, WS_EX_TRANSPARENT } },
+			{ "ICON", { JDialogDefaultIconStyle, WS_EX_TRANSPARENT } },
+			{ "BITMAPEX", { JDialogDefaultBitmapExStyle, WS_EX_TRANSPARENT } },
+			{ "ICONEX", { JDialogDefaultIconExStyle, WS_EX_TRANSPARENT } },
+			{ "SCROLLBAR", { JDialogDefaultScrollBarStyle, 0 } },
+			{ "REBAR", { JDialogDefaultReBarStyle, 0 } },
+			{ "HOTKEY", { JDialogDefaultHotKeyStyle, 0 } },
+			{ "IPADDRESS", { JDialogDefaultIPAdressStyle, 0 } },
+			{ "MONTHCAL", { JDialogDefaultMonthCalStyle, 0 } },
+			{ "STATUSBAR", { JDialogDefaultStatusBarStyle, 0 } },
+			{ "PROGRESSBAR", { JDialogDefaultProgressBarStyle, 0 } },
+			{ "ANIMATE", { JDialogDefaultAnimateStyle, 0 } },
+			{ "HEADER", { JDialogDefaultHeaderStyle, 0 } },
+			{ "RICHEDIT", { JDialogDefaultRichEditStyle, 0 } },
+			{ "DATETIMEPICKER", { JDialogDefaultDateTimePickerStyle, 0 } }
 		};
 
 		const map<string, string> mapStdControlType2A = {
@@ -252,6 +258,7 @@ namespace perchik71
 			{ "WS_SYSMENU", WS_SYSMENU },
 			{ "WS_MAXIMIZEBOX", WS_MAXIMIZEBOX },
 			{ "WS_MINIMIZEBOX", WS_MINIMIZEBOX },
+			{ "WS_EX_COMPOSITED", WS_EX_COMPOSITED },
 			{ "WS_EX_NOPARENTNOTIFY", WS_EX_NOPARENTNOTIFY },
 			{ "WS_EX_ACCEPTFILES", WS_EX_ACCEPTFILES },
 			{ "WS_EX_CLIENTEDGE", WS_EX_CLIENTEDGE },
@@ -1058,37 +1065,37 @@ namespace perchik71
 		bool WINAPI CreateLTextA(uint32_t _ex_style, const string& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog)
 		{
-			return CreateTextA(_ex_style, _title, _style/* | SS_LEFT*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateTextA(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateLTextW(uint32_t _ex_style, const wstring& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog)
 		{
-			return CreateTextW(_ex_style, _title, _style/* | SS_LEFT*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateTextW(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateCTextA(uint32_t _ex_style, const string& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog)
 		{
-			return CreateTextA(_ex_style, _title, _style/* | SS_CENTER*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateTextA(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateCTextW(uint32_t _ex_style, const wstring& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog)
 		{
-			return CreateTextW(_ex_style, _title, _style/* | SS_CENTER*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateTextW(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateRTextA(uint32_t _ex_style, const string& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog)
 		{
-			return CreateTextA(_ex_style, _title, _style/* | SS_RIGHT*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateTextA(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateRTextW(uint32_t _ex_style, const wstring& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog)
 		{
-			return CreateTextW(_ex_style, _title, _style/* | SS_RIGHT*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateTextW(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateEditTextA(uint32_t _ex_style, const string& _title,
@@ -1142,37 +1149,37 @@ namespace perchik71
 		bool WINAPI CreateAutoRadioButtonA(uint32_t _ex_style, const string& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog)
 		{
-			return CreateDefPushButtonA(_ex_style, _title, _style/* | BS_RADIOBUTTON*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateDefPushButtonA(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateAutoRadioButtonW(uint32_t _ex_style, const wstring& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog)
 		{
-			return CreateDefPushButtonW(_ex_style, _title, _style/* | BS_RADIOBUTTON*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateDefPushButtonW(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateAutoCheckButtonA(uint32_t _ex_style, const string& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog)
 		{
-			return CreateDefPushButtonA(_ex_style, _title, _style/* | BS_CHECKBOX*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateDefPushButtonA(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateAutoCheckButtonW(uint32_t _ex_style, const wstring& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog)
 		{
-			return CreateDefPushButtonW(_ex_style, _title, _style/* | BS_CHECKBOX*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateDefPushButtonW(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateGroupBoxA(uint32_t _ex_style, const string& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog)
 		{
-			return CreateDefPushButtonA(_ex_style, _title, _style/* | BS_GROUPBOX*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateDefPushButtonA(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateGroupBoxW(uint32_t _ex_style, const wstring& _title,
 			uint32_t _style, int32_t _x, int32_t _y, int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog)
 		{
-			return CreateDefPushButtonW(_ex_style, _title, _style/* | BS_GROUPBOX*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateDefPushButtonW(_ex_style, _title, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateListViewA(uint32_t _ex_style, uint32_t _style, int32_t _x, int32_t _y,
@@ -1215,52 +1222,52 @@ namespace perchik71
 			int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog)
 		{
 			CHAR szBuf[64] = { 0 };
-			return CreateTextA(_ex_style, ultoa(_resource, szBuf, 10), _style/* | SS_BITMAP*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateTextA(_ex_style, ultoa(_resource, szBuf, 10), _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateBitmapW(uint32_t _ex_style, uint32_t _style, uint32_t _resource, int32_t _x, int32_t _y,
 			int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog)
 		{
 			WCHAR szBuf[64] = { 0 };
-			return CreateTextW(_ex_style, _ultow(_resource, szBuf, 10), _style/* | SS_BITMAP*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateTextW(_ex_style, _ultow(_resource, szBuf, 10), _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateIconA(uint32_t _ex_style, uint32_t _style, uint32_t _resource, int32_t _x, int32_t _y,
 			int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog)
 		{
 			CHAR szBuf[64] = { 0 };
-			return CreateTextA(_ex_style, ultoa(_resource, szBuf, 10), _style/* | SS_ICON*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateTextA(_ex_style, ultoa(_resource, szBuf, 10), _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateIconW(uint32_t _ex_style, uint32_t _style, uint32_t _resource, int32_t _x, int32_t _y,
 			int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog)
 		{
 			WCHAR szBuf[64] = { 0 };
-			return CreateTextW(_ex_style, _ultow(_resource, szBuf, 10), _style/* | SS_ICON*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateTextW(_ex_style, _ultow(_resource, szBuf, 10), _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateBitmapExA(uint32_t _ex_style, uint32_t _style, uint32_t _resource, int32_t _x, int32_t _y,
 			int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog)
 		{
-			return CreateBitmapA(_ex_style, _resource, _style/* | SS_CENTERIMAGE*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateBitmapA(_ex_style, _resource, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateBitmapExW(uint32_t _ex_style, uint32_t _style, uint32_t _resource, int32_t _x, int32_t _y,
 			int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog)
 		{
-			return CreateBitmapW(_ex_style, _resource, _style/* | SS_CENTERIMAGE*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateBitmapW(_ex_style, _resource, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateIconExA(uint32_t _ex_style, uint32_t _style, uint32_t _resource, int32_t _x, int32_t _y,
 			int32_t _cx, int32_t _cy, uint32_t _uid, jDialogA* _dialog)
 		{
-			return CreateIconA(_ex_style, _resource, _style/* | SS_CENTERIMAGE*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateIconA(_ex_style, _resource, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateIconExW(uint32_t _ex_style, uint32_t _style, uint32_t _resource, int32_t _x, int32_t _y,
 			int32_t _cx, int32_t _cy, uint32_t _uid, jDialogW* _dialog)
 		{
-			return CreateIconW(_ex_style, _resource, _style/* | SS_CENTERIMAGE*/, _x, _y, _cx, _cy, _uid, _dialog);
+			return CreateIconW(_ex_style, _resource, _style, _x, _y, _cx, _cy, _uid, _dialog);
 		}
 
 		bool WINAPI CreateScrollBarA(uint32_t _ex_style, uint32_t _style, int32_t _x, int32_t _y,
@@ -1444,11 +1451,16 @@ namespace perchik71
 			strcpy_s(szBuf, stype.c_str());
 			_strupr_s(szBuf);
 			if (auto it = mapStdControlType.find(szBuf); it != mapStdControlType.end())
-				jGetStyleFromJSON<uint32_t>(jData, m_style, "Style", it->second);
+			{
+				jGetStyleFromJSON<uint32_t>(jData, m_style, "Style", it->second.style);
+				jGetStyleFromJSON<uint32_t>(jData, m_ex_style, "ExStyle", it->second.ex_style);
+			}
 			else
+			{
 				jGetStyleFromJSON<uint32_t>(jData, m_style, "Style", JDialogDefaultControlStyle);
+				jGetStyleFromJSON<uint32_t>(jData, m_ex_style, "ExStyle", 0);
+			}
 				
-			jGetStyleFromJSON<uint32_t>(jData, m_ex_style, "ExStyle", 0);
 			jGetValueFromJSON<int32_t>(jData, m_x, "x", 0);
 			jGetValueFromJSON<int32_t>(jData, m_y, "y", 0);
 			jGetValueFromJSON<int32_t>(jData, m_cx, "Width", 100);
@@ -1788,17 +1800,6 @@ namespace perchik71
 
 			json* jData = (json*)lParam;
 			string tmp;
-
-			string stype;
-			jGetValueFromJSON<string>(jData, stype, "Type", "CONTROL");
-
-			CHAR szBuf[64] = { 0 };
-			strcpy_s(szBuf, stype.c_str());
-			_strupr_s(szBuf);
-			if (auto it = mapStdControlType.find(szBuf); it != mapStdControlType.end())
-				jGetStyleFromJSON<uint32_t>(jData, m_style, "Style", it->second);
-			else
-				jGetStyleFromJSON<uint32_t>(jData, m_style, "Style", JDialogDefaultControlStyle);
 
 			jGetValueFromJSON<string>(jData, tmp, "Title", "Dialog");
 			m_title = jUtf8ToWide(tmp);
