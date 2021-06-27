@@ -73,7 +73,7 @@ SOFTWARE.
 
 #include "..\json\single_include\nlohmann\json.hpp"
 
-#define EXSTYLE_DEFAULT	(WS_EX_COMPOSITED)
+#define EXSTYLE_DEFAULT	/*(WS_EX_COMPOSITED)*/(0)
 #define STYLE_DEFAULT	(WS_DLGFRAME | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | WS_CAPTION)
 
 #define JDialogCreateCommControlA(_titled, _classd) CreateControlA(_ex_style, _titled, _classd, _style, _x, _y, _cx, _cy, _uid, _dialog)
