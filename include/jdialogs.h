@@ -2,7 +2,7 @@
 
 /*
 Generating Windows dialogs in JSON for C++
-Version 0.4
+Version 0.4.1
 https://github.com/Perchik71/jDialogs
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
@@ -69,10 +69,10 @@ SOFTWARE.
 #define JDialogIncorrectCheckUId(uid)	(uid >= JDialogInvalidUId)
 
 #define JDialogDefaultControlStyle			(WS_VISIBLE | WS_GROUP)
-#define JDialogDefaultTextStyle				(JDialogDefaultControlStyle | SS_NOPREFIX)
-#define JDialogDefaultLeftTextStyle			(JDialogDefaultControlStyle | SS_NOPREFIX | SS_LEFT)
-#define JDialogDefaultCenterTextStyle		(JDialogDefaultControlStyle | SS_NOPREFIX | SS_CENTER)
-#define JDialogDefaultRightTextStyle		(JDialogDefaultControlStyle | SS_NOPREFIX | SS_RIGHT)
+#define JDialogDefaultTextStyle				(JDialogDefaultControlStyle | SS_NOPREFIX | SS_ENDELLIPSIS)
+#define JDialogDefaultLeftTextStyle			(JDialogDefaultControlStyle | SS_NOPREFIX | SS_LEFT | SS_ENDELLIPSIS)
+#define JDialogDefaultCenterTextStyle		(JDialogDefaultControlStyle | SS_NOPREFIX | SS_CENTER | SS_ENDELLIPSIS)
+#define JDialogDefaultRightTextStyle		(JDialogDefaultControlStyle | SS_NOPREFIX | SS_RIGHT | SS_ENDELLIPSIS)
 #define JDialogDefaultEditTextStyle			(JDialogDefaultControlStyle | WS_BORDER | WS_TABSTOP)
 #define JDialogDefaultPushButtonStyle		(JDialogDefaultControlStyle | BS_PUSHBUTTON)
 #define JDialogDefaultDefPushButtonStyle	(JDialogDefaultControlStyle | WS_TABSTOP | BS_DEFPUSHBUTTON)

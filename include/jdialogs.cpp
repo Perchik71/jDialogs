@@ -1,6 +1,6 @@
 /*
 Generating Windows dialogs in JSON for C++
-Version 0.4
+Version 0.4.1
 https://github.com/Perchik71/jDialogs
 
 Licensed under the MIT License <http://opensource.org/licenses/MIT>.
@@ -253,6 +253,12 @@ namespace perchik71
 			{ "DS_SETFOREGROUND", DS_SETFOREGROUND },
 			{ "DS_SHELLFONT", DS_SHELLFONT },
 			{ "DS_SYSMODAL", DS_SYSMODAL },
+			{ "WS_POPUP", WS_POPUP },
+			{ "WS_POPUPWINDOW", WS_POPUPWINDOW },
+			{ "WS_CHILD", WS_CHILD },
+			{ "WS_CHILDWINDOW", WS_CHILDWINDOW },
+			{ "WS_OVERLAPPED", WS_OVERLAPPED },
+			{ "WS_OVERLAPPEDWINDOW", WS_OVERLAPPEDWINDOW },
 			{ "WS_BORDER", WS_BORDER },
 			{ "WS_DISABLED", WS_DISABLED },
 			{ "WS_HSCROLL", WS_HSCROLL },
@@ -288,6 +294,7 @@ namespace perchik71
 			{ "SS_CENTER", SS_CENTER },
 			{ "SS_CENTERIMAGE", SS_CENTERIMAGE },
 			{ "SS_ENDELLIPSIS", SS_ENDELLIPSIS },
+			{ "SS_PATHELLIPSIS", SS_PATHELLIPSIS },	
 			{ "SS_ELLIPSISMASK", SS_ELLIPSISMASK },
 			{ "SS_ENHMETAFILE", SS_ENHMETAFILE },
 			{ "SS_EDITCONTROL", SS_EDITCONTROL },
