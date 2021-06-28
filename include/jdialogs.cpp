@@ -73,8 +73,8 @@ SOFTWARE.
 
 #include "..\json\single_include\nlohmann\json.hpp"
 
-#define EXSTYLE_DEFAULT	/*(WS_EX_COMPOSITED)*/(0)
-#define STYLE_DEFAULT	(WS_DLGFRAME | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | WS_CAPTION)
+#define EXSTYLE_DEFAULT	(0)
+#define STYLE_DEFAULT	(WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK)
 
 #define JDialogCreateCommControlA(_titled, _classd) CreateControlA(_ex_style, _titled, _classd, _style, _x, _y, _cx, _cy, _uid, _dialog)
 #define JDialogCreateCommControlW(_titled, _classd) CreateControlW(_ex_style, _titled, _classd, _style, _x, _y, _cx, _cy, _uid, _dialog)
@@ -263,6 +263,7 @@ namespace perchik71
 			{ "WS_DISABLED", WS_DISABLED },
 			{ "WS_HSCROLL", WS_HSCROLL },
 			{ "WS_VSCROLL", WS_VSCROLL },
+			{ "WS_CAPTION", WS_CAPTION },
 			{ "WS_GROUP", WS_GROUP },
 			{ "WS_VISIBLE", WS_VISIBLE },
 			{ "WS_TABSTOP", WS_TABSTOP },

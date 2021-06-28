@@ -44,7 +44,7 @@ lpDialogs->ShowModal(hWnd, DlgProc, 0);
 
 By default, the dialog has the following styles:
 ```cpp
-WS_DLGFRAME | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | WS_CAPTION
+WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK
 ```
 
 `LISTVIEW`, `TREEVIEW` They have a preset double buffering flag. Do not use the `WS_EX_COMPOSITED` style for the dialog, to organize double buffering of the dialog by having these classes in the dialog.
