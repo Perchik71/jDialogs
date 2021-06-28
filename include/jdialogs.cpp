@@ -177,6 +177,9 @@ namespace perchik71
 			{ "PUSHBUTTON", "BUTTON" },
 			{ "LISTBOX", "LISTBOX" },
 			{ "COMBOBOX", "COMBOBOX" },
+			{ "COMBOBOXEX", "COMBOBOX" },
+			{ "RADIOBUTTON", "BUTTON" },
+			{ "CHECKBUTTON", "BUTTON" },
 			{ "AUTORADIOBUTTON", "BUTTON" },
 			{ "AUTOCHECKBUTTON", "BUTTON" },
 			{ "GROUPBOX", "BUTTON" },
@@ -210,6 +213,9 @@ namespace perchik71
 			{ "PUSHBUTTON", L"BUTTON" },
 			{ "LISTBOX", L"LISTBOX" },
 			{ "COMBOBOX", L"COMBOBOX" },
+			{ "COMBOBOXEX", L"COMBOBOX" },
+			{ "RADIOBUTTON", L"BUTTON" },
+			{ "CHECKBUTTON", L"BUTTON" },
 			{ "AUTORADIOBUTTON", L"BUTTON" },
 			{ "AUTOCHECKBUTTON", L"BUTTON" },
 			{ "GROUPBOX", L"BUTTON" },
@@ -458,16 +464,19 @@ namespace perchik71
 			{ "PBS_MARQUEE", PBS_MARQUEE }
 		};
 
-		DWORD WINAPI jGetStyleFromString(const string& str)
+		DWORD WINAPI jGetStyleFromString(const string& str, lpuint32_t _styles = NULL)
 		{
 			if (!str.length())
 				return 0;
+
+			DWORD dwRes = 0;
 
 			// hex
 			if (size_t pos = str.find_first_of("0x"); pos == 0)
 			{
 				string shex = str.substr(2);
-				return (DWORD)strtoull(shex.c_str(), NULL, 16);
+				dwRes = (DWORD)strtoull(shex.c_str(), NULL, 16);
+				goto style_return_label;
 			}
 
 			CHAR szBuf[64] = { 0 };
@@ -475,10 +484,19 @@ namespace perchik71
 			_strupr_s(szBuf);
 
 			if (auto it = mapControlStyle.find(szBuf); it != mapControlStyle.end())
-				return (DWORD)it->second;
+			{
+				dwRes = (DWORD)it->second;
+				goto style_return_label;
+			}
 
 			// decimal
-			return (DWORD)strtoull(str.c_str(), NULL, 10);
+			dwRes = (DWORD)strtoull(str.c_str(), NULL, 10);
+
+		style_return_label:
+			if (dwRes && _styles)
+				return ((*_styles & dwRes) == dwRes) ? 0 : dwRes;
+		
+			return dwRes;
 		}
 
 		/*
@@ -965,7 +983,7 @@ namespace perchik71
 						if (!str.find("NOT ") || !str.find("not "))
 							_v &= ~jGetStyleFromString(str.substr(4));
 						else
-							_v |= jGetStyleFromString(str);
+							_v |= jGetStyleFromString(str, &_v);
 					}
 					else if(element.is_number_integer())
 					{
