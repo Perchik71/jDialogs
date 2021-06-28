@@ -42,6 +42,14 @@ Display the dialog in modal mode:
 lpDialogs->ShowModal(hWnd, DlgProc, 0); 
 ```
 
+By default, the dialog has the following styles:
+```cpp
+WS_DLGFRAME | DS_MODALFRAME | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | WS_CAPTION
+```
+
+`LISTVIEW`, `TREEVIEW` They have a preset double buffering flag. Do not use the `WS_EX_COMPOSITED` style for the dialog, to organize double buffering of the dialog by having these classes in the dialog.
+If there is a certain need for double buffering, then disable the style for them by defining `NOT LVS_EX_DOUBLEBUFFER` or `NOT TVS_EX_DOUBLEBUFFER`.
+
 Sample file json:
 ```json
 {"ExStyle": 0,
@@ -75,6 +83,11 @@ Sample file json:
 
 Styles must be typed either in `[]`, or `0`, or not specified at all. Some styles are already embedded and can be specified as a string, while others can be typed in hex, where `0x` must be specified at the beginning (hex should be string in `""`).
 
+To create a control of an undefined class, use the following option (The class name must be specified and registered by the application in the system):
+```json
+{"ClassName": "SysListView32", "Title": "List1", "Style": ["LVS_SINGLESEL", "LVS_REPORT"], "ExStyle": ["LVS_EX_GRIDLINES"], "x": 10, "y": 10, "Width": 400, "Height": 300},
+```
+
 # Dependencies
 The project depends on https://github.com/nlohmann/json used for working with JSON data.
  
@@ -92,8 +105,10 @@ The project depends on https://github.com/nlohmann/json used for working with JS
 | LISTBOX | `ListBox` control |
 | COMBOBOX | `ComboBox` control (read only) |
 | COMBOBOXEX | `ComboBox` control (with edit) |
-| AUTORADIOBUTTON | `RadioButton` control |
-| AUTOCHECKBUTTON | `CheckButton` control |
+| RADIOBUTTON | `RadioButton` control |
+| CHECKBUTTON | `CheckButton` control |
+| AUTORADIOBUTTON | `RadioButton` control (auto changing state) |
+| AUTOCHECKBUTTON | `CheckButton` control (auto changing state) |
 | GROUPBOX | `GroupBox` control |
 | LISTVIEW | `ListView` uses CommCtrl 6.0 |
 | TREEVIEW | `TreeView` uses CommCtrl 6.0 |
