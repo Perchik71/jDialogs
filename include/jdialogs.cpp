@@ -478,6 +478,7 @@ namespace perchik71
 				return 0;
 
 			DWORD dwRes = 0;
+			CHAR szBuf[64] = { 0 };
 
 			// hex
 			if (size_t pos = str.find_first_of("0x"); pos == 0)
@@ -487,7 +488,6 @@ namespace perchik71
 				goto style_return_label;
 			}
 
-			CHAR szBuf[64] = { 0 };
 			strcpy_s(szBuf, str.c_str());
 			_strupr_s(szBuf);
 
@@ -517,7 +517,7 @@ namespace perchik71
 		T WINAPI jAlign(T lpIn, int32_t n)
 		{
 			uint64_t ul = (uint64_t)lpIn;
-			ul += n - 1;
+			ul += (uint64_t)n - 1;
 			ul &= -n;
 			return (T)ul;
 		}
@@ -709,17 +709,18 @@ namespace perchik71
 
 		uint32_t WINAPI jGetMemSizeForDialogTemplateA(const string& _title, const string& _classname, const string& _face, const jControls* _cntrs)
 		{
-			uint32_t u32res = 40 + JDialogStrLengthByteA(_title) + JDialogStrLengthByteA(_classname) + JDialogStrLengthByteA(_face);
+			uint32_t u32res = (uint32_t)(40 + JDialogStrLengthByteA(_title) + JDialogStrLengthByteA(_classname) + 
+				JDialogStrLengthByteA(_face));
 
 			CHAR szBuf[256];
 			jCustomControlA* control;
-			for each (auto cntr in *_cntrs)
+			for (auto cntr : *_cntrs)
 			{
 				u32res = jAlign(u32res, 4);
 				control = (jCustomControlA*)cntr;
 
-				uint32_t title_len = JDialogStrLengthByteA(control->Title);
-				uint32_t class_len = JDialogStrLengthByteA(control->Class);
+				uint32_t title_len = (uint32_t)JDialogStrLengthByteA(control->Title);
+				uint32_t class_len = (uint32_t)JDialogStrLengthByteA(control->Class);
 
 				strcpy(szBuf, control->Class.c_str());
 				_strupr_s(szBuf);
@@ -734,17 +735,18 @@ namespace perchik71
 
 		uint32_t WINAPI jGetMemSizeForDialogTemplateW(const wstring& _title, const wstring& _classname, const wstring& _face, const jControls* _cntrs)
 		{
-			uint32_t u32res = 40 + JDialogStrLengthByteW(_title) + JDialogStrLengthByteW(_classname) + JDialogStrLengthByteW(_face);
+			uint32_t u32res = (uint32_t)(40 + JDialogStrLengthByteW(_title) + JDialogStrLengthByteW(_classname) + 
+				JDialogStrLengthByteW(_face));
 
 			WCHAR szBuf[256];
 			jCustomControlW* control;
-			for each (auto cntr in *_cntrs)
+			for (auto cntr : *_cntrs)
 			{
 				u32res = jAlign(u32res, 4);
 				control = (jCustomControlW*)cntr;
 
-				uint32_t title_len = JDialogStrLengthByteW(control->Title);
-				uint32_t class_len = JDialogStrLengthByteW(control->Class);
+				uint32_t title_len = (uint32_t)JDialogStrLengthByteW(control->Title);
+				uint32_t class_len = (uint32_t)JDialogStrLengthByteW(control->Class);
 
 				wcscpy(szBuf, control->Class.c_str());
 				_wcsupr_s(szBuf);
@@ -765,7 +767,7 @@ namespace perchik71
 			_template.helpID = 0;
 			_template.exStyle = _ex_style | EXSTYLE_DEFAULT;
 			_template.style = _style | STYLE_DEFAULT;
-			_template.cDlgItems = _cntrs->size();
+			_template.cDlgItems = (uint16_t)_cntrs->size();
 
 			// position and size window (convert to dialog units)
 			jGetDialogUnitsA(_face, _fsize, _italic, _weight, _units.x, _units.y);
@@ -807,7 +809,7 @@ namespace perchik71
 			CHAR szBuf[256];
 			jCustomControlA* control;
 			LPDLGITEMTEMPLATEEX _itemtemplate;
-			for each (auto cntr in *_cntrs)
+			for (auto cntr : *_cntrs)
 			{
 				lpw = jAlign(lpw, 4);
 				control = (jCustomControlA*)cntr;
@@ -848,7 +850,7 @@ namespace perchik71
 					(((_itemtemplate->style & SS_BITMAP) == SS_BITMAP) || ((_itemtemplate->style & SS_ICON) == SS_ICON)))
 				{
 					*lpw++ = JDialogChunkResource;
-					*lpw++ = strtoul(control->Title.c_str(), NULL, 10);
+					*lpw++ = (uint16_t)strtoul(control->Title.c_str(), NULL, 10);
 				}
 				else
 					jAppendStringQuoteA(lpw, control->Title);
@@ -865,7 +867,7 @@ namespace perchik71
 			_template.helpID = 0;
 			_template.exStyle = _ex_style | EXSTYLE_DEFAULT;
 			_template.style = _style | STYLE_DEFAULT;
-			_template.cDlgItems = _cntrs->size();
+			_template.cDlgItems = (uint16_t)_cntrs->size();
 
 			// position and size window (convert to dialog units)
 			jGetDialogUnitsW(_face, _fsize, _italic, _weight, _units.x, _units.y);
@@ -906,7 +908,7 @@ namespace perchik71
 			WCHAR szBuf[256];
 			jCustomControlW* control;
 			LPDLGITEMTEMPLATEEX _itemtemplate;
-			for each (auto cntr in *_cntrs)
+			for (auto cntr : *_cntrs)
 			{
 				lpw = jAlign(lpw, 4);
 				control = (jCustomControlW*)cntr;
@@ -947,7 +949,7 @@ namespace perchik71
 					(((_itemtemplate->style & SS_BITMAP) == SS_BITMAP) || ((_itemtemplate->style & SS_ICON) == SS_ICON)))
 				{
 					*lpw++ = JDialogChunkResource;
-					*lpw++ = wcstoul(control->Title.c_str(), NULL, 10);
+					*lpw++ = (uint16_t)wcstoul(control->Title.c_str(), NULL, 10);
 				}
 				else
 					jAppendStringQuoteW(lpw, control->Title);
@@ -1014,7 +1016,7 @@ namespace perchik71
 			int32_t nSize = MultiByteToWideChar(CP_UTF8, 0, _t.c_str(), -1, NULL, 0);
 			if (nSize > 0)
 			{
-				WCHAR* szBuf = new WCHAR[nSize + 1];
+				WCHAR* szBuf = new WCHAR[(size_t)nSize + 1];
 
 				MultiByteToWideChar(CP_UTF8, 0, _t.c_str(), -1, szBuf, nSize);
 				szBuf[nSize] = L'\0';
@@ -1811,7 +1813,7 @@ namespace perchik71
 			m_classname(_dialog.m_classname), m_face(_dialog.m_face)
 		{
 			jCustomControlA* dublicate;
-			for each (auto component in _dialog.m_items)
+			for (auto component : _dialog.m_items)
 			{
 				dublicate = new jCustomControlA(*(jCustomControlA*)component);
 				if (dublicate)
@@ -1821,7 +1823,7 @@ namespace perchik71
 
 		jDialogA::~jDialogA(void)
 		{
-			for each (auto component in m_items)
+			for (auto component : m_items)
 				delete (jCustomControlA*)component;
 			m_items.clear();
 		}
@@ -1949,7 +1951,7 @@ namespace perchik71
 			m_classname(_dialog.m_classname), m_face(_dialog.m_face)
 		{
 			jCustomControlW* dublicate;
-			for each (auto component in _dialog.m_items)
+			for (auto component : _dialog.m_items)
 			{
 				dublicate = new jCustomControlW(*(jCustomControlW*)component);
 				if (dublicate)
@@ -1959,7 +1961,7 @@ namespace perchik71
 
 		jDialogW::~jDialogW(void)
 		{
-			for each (auto component in m_items)
+			for (auto component : m_items)
 				delete (jCustomControlW*)component;
 			m_items.clear();
 		}
