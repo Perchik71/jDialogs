@@ -74,7 +74,7 @@ SOFTWARE.
 #include "..\json\single_include\nlohmann\json.hpp"
 
 #define EXSTYLE_DEFAULT	(0)
-#define STYLE_DEFAULT	(WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK)
+#define STYLE_DEFAULT	(WS_VISIBLE/* | WS_CLIPSIBLINGS | WS_CLIPCHILDREN*/ | DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK)
 
 #define JDialogCreateCommControlA(_titled, _classd) CreateControlA(_ex_style, _titled, _classd, _style, _x, _y, _cx, _cy, _uid, _dialog)
 #define JDialogCreateCommControlW(_titled, _classd) CreateControlW(_ex_style, _titled, _classd, _style, _x, _y, _cx, _cy, _uid, _dialog)
